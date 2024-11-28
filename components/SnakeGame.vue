@@ -30,8 +30,8 @@
     </div>
 
     <!-- Audio Elements -->
-    <audio ref="eatSound" src="/eat.mp3"></audio>
-    <audio ref="bgMusic" src="/music.mp3" loop></audio>
+    <audio ref="eatSound" src="assets/eat.mp3"></audio>
+    <audio ref="bgMusic" src="assets/music.mp3" loop></audio>
   </div>
 </template>
 

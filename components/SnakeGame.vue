@@ -17,10 +17,6 @@
         :width="canvasWidth"
         :height="canvasHeight"
         class="bg-black"
-        v-touch:swipeleft="onSwipeLeft"
-        v-touch:swiperight="onSwipeRight"
-        v-touch:swipeup="onSwipeUp"
-        v-touch:swipedown="onSwipeDown"
       ></canvas>
     </div>
     <div v-else-if="gameState === 'gameover'" class="flex items-center justify-center h-screen text-center">
@@ -59,6 +55,10 @@ export default {
       gameState: 'start', // 'start', 'playing', 'gameover'
       score: 0,
       tgWebApp: null,
+      touchStartX: 0,
+      touchStartY: 0,
+      touchEndX: 0,
+      touchEndY: 0,
     };
   },
   mounted() {
@@ -106,8 +106,11 @@ export default {
         // Play background music
         this.playAudio(this.$refs.bgMusic);
 
-        // Remove existing touch event listeners if any
-        this.$refs.gameCanvas.removeEventListener('touchstart', this.canvasClickHandler);
+        // Add touch event listeners for swipe detection
+        this.$refs.gameCanvas.addEventListener('touchstart', this.handleTouchStart, false);
+        this.$refs.gameCanvas.addEventListener('touchend', this.handleTouchEnd, false);
+
+        // Remove any existing click handlers
         this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
       });
     },
@@ -134,17 +137,41 @@ export default {
           break;
       }
     },
-    onSwipeLeft() {
-      if (this.snakeDirection !== 'right') this.snakeDirection = 'left';
+    handleTouchStart(event) {
+      const touch = event.changedTouches[0];
+      this.touchStartX = touch.screenX;
+      this.touchStartY = touch.screenY;
     },
-    onSwipeRight() {
-      if (this.snakeDirection !== 'left') this.snakeDirection = 'right';
+    handleTouchEnd(event) {
+      const touch = event.changedTouches[0];
+      this.touchEndX = touch.screenX;
+      this.touchEndY = touch.screenY;
+      this.handleGesture();
     },
-    onSwipeUp() {
-      if (this.snakeDirection !== 'down') this.snakeDirection = 'up';
-    },
-    onSwipeDown() {
-      if (this.snakeDirection !== 'up') this.snakeDirection = 'down';
+    handleGesture() {
+      const deltaX = this.touchEndX - this.touchStartX;
+      const deltaY = this.touchEndY - this.touchStartY;
+      const threshold = 30; // Minimum distance to be considered a swipe
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Horizontal swipe
+        if (deltaX > threshold && this.snakeDirection !== 'left') {
+          // Swipe right
+          this.snakeDirection = 'right';
+        } else if (deltaX < -threshold && this.snakeDirection !== 'right') {
+          // Swipe left
+          this.snakeDirection = 'left';
+        }
+      } else {
+        // Vertical swipe
+        if (deltaY > threshold && this.snakeDirection !== 'up') {
+          // Swipe down
+          this.snakeDirection = 'down';
+        } else if (deltaY < -threshold && this.snakeDirection !== 'down') {
+          // Swipe up
+          this.snakeDirection = 'up';
+        }
+      }
     },
     gameLoop() {
       this.updateSnakePosition();
@@ -205,6 +232,10 @@ export default {
       // Stop background music
       this.$refs.bgMusic.pause();
       this.$refs.bgMusic.currentTime = 0;
+
+      // Remove touch event listeners
+      this.$refs.gameCanvas.removeEventListener('touchstart', this.handleTouchStart);
+      this.$refs.gameCanvas.removeEventListener('touchend', this.handleTouchEnd);
 
       this.gameState = 'gameover';
     },

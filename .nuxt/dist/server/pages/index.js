@@ -14,7 +14,7 @@ if(content.locals) module.exports = content.locals;
 // add CSS to SSR context
 var add = __webpack_require__(5).default
 module.exports.__inject__ = function (context) {
-  add("30bde91e", content, true, context)
+  add("2d2292dc", content, true, context)
 };
 
 /***/ }),
@@ -26,49 +26,17 @@ module.exports.__inject__ = function (context) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=template&id=1a5b0d97&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=template&id=58197242&scoped=true
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
     staticClass: "bg-black min-h-screen w-full h-full"
-  }, [_vm.gameState === 'start' ? _vm._ssrNode("<div class=\"flex items-center justify-center h-screen text-center\" data-v-1a5b0d97>", "</div>", [_vm._ssrNode("<div data-v-1a5b0d97><h1 class=\"text-5xl text-neon-green mb-8\" data-v-1a5b0d97>Play Snake Game</h1> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-1a5b0d97>\n        Start Game\n      </button></div>")], 2) : _vm.gameState === 'playing' ? _vm._ssrNode("<div data-v-1a5b0d97>", "</div>", [_c('canvas', {
-    directives: [{
-      name: "touch",
-      rawName: "v-touch:swipeleft",
-      value: _vm.onSwipeLeft,
-      expression: "onSwipeLeft",
-      arg: "swipeleft"
-    }, {
-      name: "touch",
-      rawName: "v-touch:swiperight",
-      value: _vm.onSwipeRight,
-      expression: "onSwipeRight",
-      arg: "swiperight"
-    }, {
-      name: "touch",
-      rawName: "v-touch:swipeup",
-      value: _vm.onSwipeUp,
-      expression: "onSwipeUp",
-      arg: "swipeup"
-    }, {
-      name: "touch",
-      rawName: "v-touch:swipedown",
-      value: _vm.onSwipeDown,
-      expression: "onSwipeDown",
-      arg: "swipedown"
-    }],
-    ref: "gameCanvas",
-    staticClass: "bg-black",
-    attrs: {
-      "width": _vm.canvasWidth,
-      "height": _vm.canvasHeight
-    }
-  }, [])]) : _vm.gameState === 'gameover' ? _vm._ssrNode("<div class=\"flex items-center justify-center h-screen text-center\" data-v-1a5b0d97><div data-v-1a5b0d97><h1 class=\"text-5xl text-neon-red mb-6\" data-v-1a5b0d97>Game Over</h1> <p class=\"text-neon-green text-2xl mb-4\" data-v-1a5b0d97>" + _vm._ssrEscape("Your Score: " + _vm._s(_vm.score)) + "</p> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-1a5b0d97>\n        Play Again\n      </button></div></div>") : _vm._e(), _vm._ssrNode(" <audio src=\"/eat.mp3\" data-v-1a5b0d97></audio> <audio src=\"/music.mp3\" loop=\"loop\" data-v-1a5b0d97></audio>")], 2);
+  }, [_vm._ssrNode((_vm.gameState === 'start' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-58197242><div data-v-58197242><h1 class=\"text-5xl text-neon-green mb-8\" data-v-58197242>Play Snake Game</h1> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-58197242>\n        Start Game\n      </button></div></div>" : _vm.gameState === 'playing' ? "<div data-v-58197242><canvas" + _vm._ssrAttr("width", _vm.canvasWidth) + _vm._ssrAttr("height", _vm.canvasHeight) + " class=\"bg-black\" data-v-58197242></canvas></div>" : _vm.gameState === 'gameover' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-58197242><div data-v-58197242><h1 class=\"text-5xl text-neon-red mb-6\" data-v-58197242>Game Over</h1> <p class=\"text-neon-green text-2xl mb-4\" data-v-58197242>" + _vm._ssrEscape("Your Score: " + _vm._s(_vm.score)) + "</p> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-58197242>\n        Play Again\n      </button></div></div>" : "<!---->") + " <audio src=\"/eat.mp3\" data-v-58197242></audio> <audio src=\"/music.mp3\" loop=\"loop\" data-v-58197242></audio>")]);
 };
 var staticRenderFns = [];
 
-// CONCATENATED MODULE: ./components/SnakeGame.vue?vue&type=template&id=1a5b0d97&scoped=true
+// CONCATENATED MODULE: ./components/SnakeGame.vue?vue&type=template&id=58197242&scoped=true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=script&lang=js
 /* harmony default export */ var SnakeGamevue_type_script_lang_js = ({
@@ -90,7 +58,11 @@ var staticRenderFns = [];
       gameState: 'start',
       // 'start', 'playing', 'gameover'
       score: 0,
-      tgWebApp: null
+      tgWebApp: null,
+      touchStartX: 0,
+      touchStartY: 0,
+      touchEndX: 0,
+      touchEndY: 0
     };
   },
   mounted() {
@@ -117,8 +89,11 @@ var staticRenderFns = [];
         // Play background music
         this.playAudio(this.$refs.bgMusic);
 
-        // Remove existing touch event listeners if any
-        this.$refs.gameCanvas.removeEventListener('touchstart', this.canvasClickHandler);
+        // Add touch event listeners for swipe detection
+        this.$refs.gameCanvas.addEventListener('touchstart', this.handleTouchStart, false);
+        this.$refs.gameCanvas.addEventListener('touchend', this.handleTouchEnd, false);
+
+        // Remove any existing click handlers
         this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
       });
     },
@@ -152,17 +127,41 @@ var staticRenderFns = [];
           break;
       }
     },
-    onSwipeLeft() {
-      if (this.snakeDirection !== 'right') this.snakeDirection = 'left';
+    handleTouchStart(event) {
+      const touch = event.changedTouches[0];
+      this.touchStartX = touch.screenX;
+      this.touchStartY = touch.screenY;
     },
-    onSwipeRight() {
-      if (this.snakeDirection !== 'left') this.snakeDirection = 'right';
+    handleTouchEnd(event) {
+      const touch = event.changedTouches[0];
+      this.touchEndX = touch.screenX;
+      this.touchEndY = touch.screenY;
+      this.handleGesture();
     },
-    onSwipeUp() {
-      if (this.snakeDirection !== 'down') this.snakeDirection = 'up';
-    },
-    onSwipeDown() {
-      if (this.snakeDirection !== 'up') this.snakeDirection = 'down';
+    handleGesture() {
+      const deltaX = this.touchEndX - this.touchStartX;
+      const deltaY = this.touchEndY - this.touchStartY;
+      const threshold = 30; // Minimum distance to be considered a swipe
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // Horizontal swipe
+        if (deltaX > threshold && this.snakeDirection !== 'left') {
+          // Swipe right
+          this.snakeDirection = 'right';
+        } else if (deltaX < -threshold && this.snakeDirection !== 'right') {
+          // Swipe left
+          this.snakeDirection = 'left';
+        }
+      } else {
+        // Vertical swipe
+        if (deltaY > threshold && this.snakeDirection !== 'up') {
+          // Swipe down
+          this.snakeDirection = 'down';
+        } else if (deltaY < -threshold && this.snakeDirection !== 'down') {
+          // Swipe up
+          this.snakeDirection = 'up';
+        }
+      }
     },
     gameLoop() {
       this.updateSnakePosition();
@@ -221,6 +220,10 @@ var staticRenderFns = [];
       // Stop background music
       this.$refs.bgMusic.pause();
       this.$refs.bgMusic.currentTime = 0;
+
+      // Remove touch event listeners
+      this.$refs.gameCanvas.removeEventListener('touchstart', this.handleTouchStart);
+      this.$refs.gameCanvas.removeEventListener('touchend', this.handleTouchEnd);
       this.gameState = 'gameover';
     },
     placeFood() {
@@ -319,7 +322,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   injectStyles,
-  "1a5b0d97",
+  "58197242",
   "73827e87"
   
 )
@@ -333,9 +336,9 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_1a5b0d97_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_1a5b0d97_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_1a5b0d97_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_1a5b0d97_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_1a5b0d97_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_58197242_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_58197242_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_58197242_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_58197242_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_58197242_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
 
 /***/ }),
@@ -347,7 +350,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(4);
 var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, "body[data-v-1a5b0d97]{background-color:#000;margin:0}canvas[data-v-1a5b0d97]{display:block}.text-neon-green[data-v-1a5b0d97]{color:#39ff14}.text-neon-red[data-v-1a5b0d97]{color:#ff3131}.bg-neon-blue[data-v-1a5b0d97]{background-color:#1b03a3}.bg-neon-blue-dark[data-v-1a5b0d97]{background-color:navy}button[data-v-1a5b0d97]{box-shadow:0 0 10px #1b03a3}button[data-v-1a5b0d97]:hover{box-shadow:0 0 20px navy}", ""]);
+___CSS_LOADER_EXPORT___.push([module.i, "body[data-v-58197242]{background-color:#000;margin:0}canvas[data-v-58197242]{display:block}.text-neon-green[data-v-58197242]{color:#39ff14}.text-neon-red[data-v-58197242]{color:#ff3131}.bg-neon-blue[data-v-58197242]{background-color:#1b03a3}.bg-neon-blue-dark[data-v-58197242]{background-color:navy}button[data-v-58197242]{box-shadow:0 0 10px #1b03a3}button[data-v-58197242]:hover{box-shadow:0 0 20px navy}", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {};
 module.exports = ___CSS_LOADER_EXPORT___;

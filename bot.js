@@ -16,7 +16,7 @@ bot.onText(/\/start/, (msg) => {
       inline_keyboard: [
         [
           {
-            text: 'Play Snake Game',
+            text: 'Play the Snake Game',
             web_app: { url: webAppUrl },
           },
         ],

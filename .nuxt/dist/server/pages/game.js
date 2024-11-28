@@ -14,7 +14,7 @@ if(content.locals) module.exports = content.locals;
 // add CSS to SSR context
 var add = __webpack_require__(5).default
 module.exports.__inject__ = function (context) {
-  add("3f6eca8c", content, true, context)
+  add("29386298", content, true, context)
 };
 
 /***/ }),
@@ -26,23 +26,24 @@ module.exports.__inject__ = function (context) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=template&id=21c00987&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=template&id=0843bd98&scoped=true
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
-    staticClass: "flex items-center justify-center bg-black min-h-screen"
-  }, [_vm._ssrNode((_vm.gameState === 'start' ? "<div class=\"text-center\" data-v-21c00987><h1 class=\"text-5xl text-neon-green mb-8\" data-v-21c00987>Play Snake Game</h1> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-21c00987>\n      Start Game\n    </button></div>" : _vm.gameState === 'playing' ? "<div class=\"flex flex-col items-center\" data-v-21c00987><div class=\"text-neon-green text-2xl mb-2\" data-v-21c00987>" + _vm._ssrEscape("Score: " + _vm._s(_vm.score)) + "</div> <canvas" + _vm._ssrAttr("width", _vm.canvasSize) + _vm._ssrAttr("height", _vm.canvasSize) + " class=\"border-4 border-neon-blue bg-black\" data-v-21c00987></canvas></div>" : _vm.gameState === 'gameover' ? "<div class=\"text-center\" data-v-21c00987><h1 class=\"text-5xl text-neon-red mb-6\" data-v-21c00987>Game Over</h1> <p class=\"text-neon-green text-2xl mb-4\" data-v-21c00987>" + _vm._ssrEscape("Your Score: " + _vm._s(_vm.score)) + "</p> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-21c00987>\n      Play Again\n    </button></div>" : "<!---->") + " <audio src=\"assets/eat.mp3\" data-v-21c00987></audio> <audio src=\"assets/music.mp3\" loop=\"loop\" data-v-21c00987></audio>")]);
+    staticClass: "bg-black min-h-screen w-full h-full"
+  }, [_vm._ssrNode((_vm.gameState === 'start' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-0843bd98><h1 class=\"text-5xl text-neon-green mb-8\" data-v-0843bd98>Play Snake Game</h1> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-0843bd98>\n      Start Game\n    </button></div>" : _vm.gameState === 'playing' ? "<div data-v-0843bd98><canvas" + _vm._ssrAttr("width", _vm.canvasWidth) + _vm._ssrAttr("height", _vm.canvasHeight) + " class=\"bg-black\" data-v-0843bd98></canvas></div>" : _vm.gameState === 'gameover' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-0843bd98><div data-v-0843bd98><h1 class=\"text-5xl text-neon-red mb-6\" data-v-0843bd98>Game Over</h1> <p class=\"text-neon-green text-2xl mb-4\" data-v-0843bd98>" + _vm._ssrEscape("Your Score: " + _vm._s(_vm.score)) + "</p> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-0843bd98>\n        Play Again\n      </button></div></div>" : "<!---->") + " <audio src=\"assets/eat.mp3\" data-v-0843bd98></audio> <audio src=\"assets/music.mp3\" loop=\"loop\" data-v-0843bd98></audio>")]);
 };
 var staticRenderFns = [];
 
-// CONCATENATED MODULE: ./components/SnakeGame.vue?vue&type=template&id=21c00987&scoped=true
+// CONCATENATED MODULE: ./components/SnakeGame.vue?vue&type=template&id=0843bd98&scoped=true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=script&lang=js
 /* harmony default export */ var SnakeGamevue_type_script_lang_js = ({
   data() {
     return {
-      canvasSize: 0,
+      canvasWidth: 0,
+      canvasHeight: 0,
       context: null,
       snake: [],
       snakeDirection: 'right',
@@ -50,8 +51,9 @@ var staticRenderFns = [];
         x: 0,
         y: 0
       },
-      gridSize: 0,
-      tileCount: 20,
+      gridSize: 20,
+      tileCountX: 0,
+      tileCountY: 0,
       gameInterval: null,
       gameState: 'start',
       // 'start', 'playing', 'gameover'
@@ -60,6 +62,9 @@ var staticRenderFns = [];
     };
   },
   mounted() {
+    // Ensure window is defined before accessing it
+    this.canvasWidth = window.innerWidth;
+    this.canvasHeight = window.innerHeight;
     this.calculateCanvasSize();
     window.addEventListener('resize', this.calculateCanvasSize);
     if (window.Telegram && window.Telegram.WebApp) {
@@ -80,21 +85,21 @@ var staticRenderFns = [];
   },
   methods: {
     calculateCanvasSize() {
-      const size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
-      // Ensure canvasSize is divisible by tileCount
-      this.canvasSize = Math.floor(size / this.tileCount) * this.tileCount;
-      this.gridSize = this.canvasSize / this.tileCount;
+      this.canvasWidth = window.innerWidth;
+      this.canvasHeight = window.innerHeight;
+      this.tileCountX = Math.floor(this.canvasWidth / this.gridSize);
+      this.tileCountY = Math.floor(this.canvasHeight / this.gridSize);
     },
     startGame() {
       this.gameState = 'playing';
+      this.calculateCanvasSize();
       this.$nextTick(() => {
         this.context = this.$refs.gameCanvas.getContext('2d');
         this.resetGame();
         this.gameInterval = setInterval(this.gameLoop, 100);
 
         // Play background music
-        // Uncomment if you have background music
-        // this.$refs.bgMusic.play();
+        this.playAudio(this.$refs.bgMusic);
 
         // Add event listeners
         this.$refs.gameCanvas.addEventListener('click', this.canvasClickHandler);
@@ -103,8 +108,8 @@ var staticRenderFns = [];
     },
     resetGame() {
       this.snake = [{
-        x: 10,
-        y: 10
+        x: Math.floor(this.tileCountX / 2),
+        y: Math.floor(this.tileCountY / 2)
       }];
       this.snakeDirection = 'right';
       this.score = 0;
@@ -142,8 +147,11 @@ var staticRenderFns = [];
         x = event.clientX - rect.left;
         y = event.clientY - rect.top;
       }
-      const dx = x - this.canvasSize / 2;
-      const dy = y - this.canvasSize / 2;
+      const head = this.snake[0];
+      const headX = head.x * this.gridSize + this.gridSize / 2;
+      const headY = head.y * this.gridSize + this.gridSize / 2;
+      const dx = x - headX;
+      const dy = y - headY;
       if (Math.abs(dx) > Math.abs(dy)) {
         // Horizontal movement
         if (dx < 0 && this.snakeDirection !== 'right') {
@@ -188,8 +196,8 @@ var staticRenderFns = [];
       }
 
       // Wrap around edges
-      head.x = (head.x + this.tileCount) % this.tileCount;
-      head.y = (head.y + this.tileCount) % this.tileCount;
+      head.x = (head.x + this.tileCountX) % this.tileCountX;
+      head.y = (head.y + this.tileCountY) % this.tileCountY;
       this.snake.unshift(head);
 
       // Check for food collision
@@ -198,9 +206,7 @@ var staticRenderFns = [];
         this.placeFood();
 
         // Play eat sound
-        // Uncomment if you have an eat sound
-        // this.$refs.eatSound.currentTime = 0;
-        // this.$refs.eatSound.play();
+        this.playAudio(this.$refs.eatSound);
       } else {
         this.snake.pop();
       }
@@ -217,9 +223,8 @@ var staticRenderFns = [];
       clearInterval(this.gameInterval);
 
       // Stop background music
-      // Uncomment if you have background music
-      // this.$refs.bgMusic.pause();
-      // this.$refs.bgMusic.currentTime = 0;
+      this.$refs.bgMusic.pause();
+      this.$refs.bgMusic.currentTime = 0;
 
       // Remove event listeners
       this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
@@ -229,8 +234,8 @@ var staticRenderFns = [];
     placeFood() {
       let newX, newY;
       do {
-        newX = Math.floor(Math.random() * this.tileCount);
-        newY = Math.floor(Math.random() * this.tileCount);
+        newX = Math.floor(Math.random() * this.tileCountX);
+        newY = Math.floor(Math.random() * this.tileCountY);
       } while (this.snake.some(part => part.x === newX && part.y === newY));
       this.food = {
         x: newX,
@@ -240,7 +245,7 @@ var staticRenderFns = [];
     drawGame() {
       // Clear canvas with a black background
       this.context.fillStyle = '#000000';
-      this.context.fillRect(0, 0, this.canvasSize, this.canvasSize);
+      this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
       // Draw grid lines for a futuristic feel
       this.drawGrid();
@@ -265,23 +270,36 @@ var staticRenderFns = [];
     drawGrid() {
       this.context.strokeStyle = '#0F0F0F';
       this.context.lineWidth = 1;
-      for (let i = 0; i <= this.tileCount; i++) {
+      for (let i = 0; i <= this.tileCountX; i++) {
         // Vertical lines
         this.context.beginPath();
         this.context.moveTo(i * this.gridSize, 0);
-        this.context.lineTo(i * this.gridSize, this.canvasSize);
+        this.context.lineTo(i * this.gridSize, this.canvasHeight);
         this.context.stroke();
-
+      }
+      for (let i = 0; i <= this.tileCountY; i++) {
         // Horizontal lines
         this.context.beginPath();
         this.context.moveTo(0, i * this.gridSize);
-        this.context.lineTo(this.canvasSize, i * this.gridSize);
+        this.context.lineTo(this.canvasWidth, i * this.gridSize);
         this.context.stroke();
       }
     },
     applyTheme(themeParams) {
       // You can adjust the game's colors based on Telegram's theme parameters
       // For simplicity, this function is left empty
+    },
+    playAudio(audioElement) {
+      if (audioElement) {
+        const playPromise = audioElement.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            // Auto-play was prevented
+            // Show a UI element to let the user manually start playback
+            console.error('Audio play prevented:', error);
+          });
+        }
+      }
     }
   }
 });
@@ -309,7 +327,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   injectStyles,
-  "21c00987",
+  "0843bd98",
   "73827e87"
   
 )
@@ -323,9 +341,9 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_21c00987_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_21c00987_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_21c00987_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_21c00987_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_21c00987_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
 
 /***/ }),
@@ -337,7 +355,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(4);
 var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, "body[data-v-21c00987]{background-color:#000;margin:0}canvas[data-v-21c00987]{display:block}.text-neon-green[data-v-21c00987]{color:#39ff14}.text-neon-red[data-v-21c00987]{color:#ff3131}.bg-neon-blue[data-v-21c00987]{background-color:#1b03a3}.bg-neon-blue-dark[data-v-21c00987]{background-color:navy}.border-neon-blue[data-v-21c00987]{border-color:#1b03a3}button[data-v-21c00987]{box-shadow:0 0 10px #1b03a3}button[data-v-21c00987]:hover{box-shadow:0 0 20px navy}", ""]);
+___CSS_LOADER_EXPORT___.push([module.i, "body[data-v-0843bd98]{background-color:#000;margin:0}canvas[data-v-0843bd98]{display:block}.text-neon-green[data-v-0843bd98]{color:#39ff14}.text-neon-red[data-v-0843bd98]{color:#ff3131}.bg-neon-blue[data-v-0843bd98]{background-color:#1b03a3}.bg-neon-blue-dark[data-v-0843bd98]{background-color:navy}button[data-v-0843bd98]{box-shadow:0 0 10px #1b03a3}button[data-v-0843bd98]:hover{box-shadow:0 0 20px navy}", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {};
 module.exports = ___CSS_LOADER_EXPORT___;

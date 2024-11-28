@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-center bg-black min-h-screen">
-    <div v-if="gameState === 'start'" class="text-center">
+  <div class="bg-black min-h-screen w-full h-full">
+    <div v-if="gameState === 'start'" class="flex items-center justify-center h-screen text-center">
       <h1 class="text-5xl text-neon-green mb-8">Play Snake Game</h1>
       <button
         @click="startGame"
@@ -9,24 +9,25 @@
         Start Game
       </button>
     </div>
-    <div v-else-if="gameState === 'playing'" class="flex flex-col items-center">
-      <div class="text-neon-green text-2xl mb-2">Score: {{ score }}</div>
+    <div v-else-if="gameState === 'playing'">
       <canvas
         ref="gameCanvas"
-        :width="canvasSize"
-        :height="canvasSize"
-        class="border-4 border-neon-blue bg-black"
+        :width="canvasWidth"
+        :height="canvasHeight"
+        class="bg-black"
       ></canvas>
     </div>
-    <div v-else-if="gameState === 'gameover'" class="text-center">
-      <h1 class="text-5xl text-neon-red mb-6">Game Over</h1>
-      <p class="text-neon-green text-2xl mb-4">Your Score: {{ score }}</p>
-      <button
-        @click="startGame"
-        class="px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl"
-      >
-        Play Again
-      </button>
+    <div v-else-if="gameState === 'gameover'" class="flex items-center justify-center h-screen text-center">
+      <div>
+        <h1 class="text-5xl text-neon-red mb-6">Game Over</h1>
+        <p class="text-neon-green text-2xl mb-4">Your Score: {{ score }}</p>
+        <button
+          @click="startGame"
+          class="px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl"
+        >
+          Play Again
+        </button>
+      </div>
     </div>
 
     <!-- Audio Elements -->
@@ -39,13 +40,15 @@
 export default {
   data() {
     return {
-      canvasSize: 0,
+      canvasWidth: 0,
+      canvasHeight: 0,
       context: null,
       snake: [],
       snakeDirection: 'right',
       food: { x: 0, y: 0 },
-      gridSize: 0,
-      tileCount: 20,
+      gridSize: 20,
+      tileCountX: 0,
+      tileCountY: 0,
       gameInterval: null,
       gameState: 'start', // 'start', 'playing', 'gameover'
       score: 0,
@@ -53,7 +56,11 @@ export default {
     };
   },
   mounted() {
+    // Ensure window is defined before accessing it
+    this.canvasWidth = window.innerWidth;
+    this.canvasHeight = window.innerHeight;
     this.calculateCanvasSize();
+
     window.addEventListener('resize', this.calculateCanvasSize);
 
     if (window.Telegram && window.Telegram.WebApp) {
@@ -74,21 +81,21 @@ export default {
   },
   methods: {
     calculateCanvasSize() {
-      const size = Math.min(window.innerWidth, window.innerHeight) * 0.9;
-      // Ensure canvasSize is divisible by tileCount
-      this.canvasSize = Math.floor(size / this.tileCount) * this.tileCount;
-      this.gridSize = this.canvasSize / this.tileCount;
+      this.canvasWidth = window.innerWidth;
+      this.canvasHeight = window.innerHeight;
+      this.tileCountX = Math.floor(this.canvasWidth / this.gridSize);
+      this.tileCountY = Math.floor(this.canvasHeight / this.gridSize);
     },
     startGame() {
       this.gameState = 'playing';
+      this.calculateCanvasSize();
       this.$nextTick(() => {
         this.context = this.$refs.gameCanvas.getContext('2d');
         this.resetGame();
         this.gameInterval = setInterval(this.gameLoop, 100);
 
         // Play background music
-        // Uncomment if you have background music
-        // this.$refs.bgMusic.play();
+        this.playAudio(this.$refs.bgMusic);
 
         // Add event listeners
         this.$refs.gameCanvas.addEventListener('click', this.canvasClickHandler);
@@ -96,7 +103,7 @@ export default {
       });
     },
     resetGame() {
-      this.snake = [{ x: 10, y: 10 }];
+      this.snake = [{ x: Math.floor(this.tileCountX / 2), y: Math.floor(this.tileCountY / 2) }];
       this.snakeDirection = 'right';
       this.score = 0;
       this.placeFood();
@@ -130,8 +137,12 @@ export default {
         y = event.clientY - rect.top;
       }
 
-      const dx = x - this.canvasSize / 2;
-      const dy = y - this.canvasSize / 2;
+      const head = this.snake[0];
+      const headX = head.x * this.gridSize + this.gridSize / 2;
+      const headY = head.y * this.gridSize + this.gridSize / 2;
+
+      const dx = x - headX;
+      const dy = y - headY;
 
       if (Math.abs(dx) > Math.abs(dy)) {
         // Horizontal movement
@@ -175,8 +186,8 @@ export default {
       }
 
       // Wrap around edges
-      head.x = (head.x + this.tileCount) % this.tileCount;
-      head.y = (head.y + this.tileCount) % this.tileCount;
+      head.x = (head.x + this.tileCountX) % this.tileCountX;
+      head.y = (head.y + this.tileCountY) % this.tileCountY;
 
       this.snake.unshift(head);
 
@@ -186,9 +197,7 @@ export default {
         this.placeFood();
 
         // Play eat sound
-        // Uncomment if you have an eat sound
-        // this.$refs.eatSound.currentTime = 0;
-        // this.$refs.eatSound.play();
+        this.playAudio(this.$refs.eatSound);
       } else {
         this.snake.pop();
       }
@@ -208,9 +217,8 @@ export default {
       clearInterval(this.gameInterval);
 
       // Stop background music
-      // Uncomment if you have background music
-      // this.$refs.bgMusic.pause();
-      // this.$refs.bgMusic.currentTime = 0;
+      this.$refs.bgMusic.pause();
+      this.$refs.bgMusic.currentTime = 0;
 
       // Remove event listeners
       this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
@@ -220,15 +228,15 @@ export default {
     placeFood() {
       let newX, newY;
       do {
-        newX = Math.floor(Math.random() * this.tileCount);
-        newY = Math.floor(Math.random() * this.tileCount);
+        newX = Math.floor(Math.random() * this.tileCountX);
+        newY = Math.floor(Math.random() * this.tileCountY);
       } while (this.snake.some((part) => part.x === newX && part.y === newY));
       this.food = { x: newX, y: newY };
     },
     drawGame() {
       // Clear canvas with a black background
       this.context.fillStyle = '#000000';
-      this.context.fillRect(0, 0, this.canvasSize, this.canvasSize);
+      this.context.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
       // Draw grid lines for a futuristic feel
       this.drawGrid();
@@ -264,23 +272,37 @@ export default {
       this.context.strokeStyle = '#0F0F0F';
       this.context.lineWidth = 1;
 
-      for (let i = 0; i <= this.tileCount; i++) {
+      for (let i = 0; i <= this.tileCountX; i++) {
         // Vertical lines
         this.context.beginPath();
         this.context.moveTo(i * this.gridSize, 0);
-        this.context.lineTo(i * this.gridSize, this.canvasSize);
+        this.context.lineTo(i * this.gridSize, this.canvasHeight);
         this.context.stroke();
+      }
 
+      for (let i = 0; i <= this.tileCountY; i++) {
         // Horizontal lines
         this.context.beginPath();
         this.context.moveTo(0, i * this.gridSize);
-        this.context.lineTo(this.canvasSize, i * this.gridSize);
+        this.context.lineTo(this.canvasWidth, i * this.gridSize);
         this.context.stroke();
       }
     },
     applyTheme(themeParams) {
       // You can adjust the game's colors based on Telegram's theme parameters
       // For simplicity, this function is left empty
+    },
+    playAudio(audioElement) {
+      if (audioElement) {
+        const playPromise = audioElement.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            // Auto-play was prevented
+            // Show a UI element to let the user manually start playback
+            console.error('Audio play prevented:', error);
+          });
+        }
+      }
     },
   },
 };
@@ -310,10 +332,6 @@ canvas {
 
 .bg-neon-blue-dark {
   background-color: #000080; /* Darker neon blue */
-}
-
-.border-neon-blue {
-  border-color: #1B03A3; /* Neon blue border */
 }
 
 button {

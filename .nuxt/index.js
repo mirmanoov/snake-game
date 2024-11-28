@@ -13,7 +13,7 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 /* Plugins */
 
 import nuxt_plugin_plugin_bc6d88c4 from 'nuxt_plugin_plugin_bc6d88c4' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_vue2touchevents_147d6945 from 'nuxt_plugin_vue2touchevents_147d6945' // Source: ../plugins/vue2-touch-events.js (mode: 'all')
+import nuxt_plugin_vuetouchevents_b675309a from 'nuxt_plugin_vuetouchevents_b675309a' // Source: ../plugins/vue-touch-events.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -185,8 +185,8 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_plugin_bc6d88c4(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_vue2touchevents_147d6945 === 'function') {
-    await nuxt_plugin_vue2touchevents_147d6945(app.context, inject)
+  if (typeof nuxt_plugin_vuetouchevents_b675309a === 'function') {
+    await nuxt_plugin_vuetouchevents_b675309a(app.context, inject)
   }
 
   // Lock enablePreview in context

@@ -2058,13 +2058,11 @@ for (const name in components_namespaceObject) {
 var external_vue2_touch_events_ = __webpack_require__(12);
 var external_vue2_touch_events_default = /*#__PURE__*/__webpack_require__.n(external_vue2_touch_events_);
 
-// CONCATENATED MODULE: ./plugins/vue2-touch-events.js
-// plugins/vue2-touch-events.js
+// CONCATENATED MODULE: ./plugins/vue-touch-events.js
+// plugins/vue-touch-events.js
 
 
-external_vue_default.a.use(external_vue2_touch_events_default.a, {
-  swipeTolerance: 50 // Minimum distance for a swipe to be recognized
-});
+external_vue_default.a.use(external_vue2_touch_events_default.a);
 // CONCATENATED MODULE: ./.nuxt/index.js
 
 
@@ -2080,7 +2078,7 @@ external_vue_default.a.use(external_vue2_touch_events_default.a, {
 /* Plugins */
 
  // Source: ./components/plugin.js (mode: 'all')
- // Source: ../plugins/vue2-touch-events.js (mode: 'all')
+ // Source: ../plugins/vue-touch-events.js (mode: 'all')
 
 // Component: <ClientOnly>
 external_vue_default.a.component(external_vue_client_only_default.a.name, external_vue_client_only_default.a);
@@ -2272,8 +2270,8 @@ async function createApp(ssrContext, config = {}) {
   if (typeof /* Cannot get final name for export "default" in "./.nuxt/components/plugin.js" (known exports: , known reexports: ) */ undefined === 'function') {
     await /* Cannot get final name for export "default" in "./.nuxt/components/plugin.js" (known exports: , known reexports: ) */ undefined(app.context, inject);
   }
-  if (typeof /* Cannot get final name for export "default" in "./plugins/vue2-touch-events.js" (known exports: , known reexports: ) */ undefined === 'function') {
-    await /* Cannot get final name for export "default" in "./plugins/vue2-touch-events.js" (known exports: , known reexports: ) */ undefined(app.context, inject);
+  if (typeof /* Cannot get final name for export "default" in "./plugins/vue-touch-events.js" (known exports: , known reexports: ) */ undefined === 'function') {
+    await /* Cannot get final name for export "default" in "./plugins/vue-touch-events.js" (known exports: , known reexports: ) */ undefined(app.context, inject);
   }
 
   // Lock enablePreview in context

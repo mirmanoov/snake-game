@@ -17,6 +17,10 @@
         :width="canvasWidth"
         :height="canvasHeight"
         class="bg-black"
+        v-touch:swipeleft="onSwipeLeft"
+        v-touch:swiperight="onSwipeRight"
+        v-touch:swipeup="onSwipeUp"
+        v-touch:swipedown="onSwipeDown"
       ></canvas>
     </div>
     <div v-else-if="gameState === 'gameover'" class="flex items-center justify-center h-screen text-center">
@@ -102,9 +106,9 @@ export default {
         // Play background music
         this.playAudio(this.$refs.bgMusic);
 
-        // Add event listeners
-        this.$refs.gameCanvas.addEventListener('click', this.canvasClickHandler);
-        this.$refs.gameCanvas.addEventListener('touchstart', this.canvasClickHandler);
+        // Remove existing touch event listeners if any
+        this.$refs.gameCanvas.removeEventListener('touchstart', this.canvasClickHandler);
+        this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
       });
     },
     resetGame() {
@@ -130,35 +134,17 @@ export default {
           break;
       }
     },
-    canvasClickHandler(event) {
-      if (this.gameState !== 'playing') return;
-      let x, y;
-      const rect = this.$refs.gameCanvas.getBoundingClientRect();
-      if (event.type === 'touchstart') {
-        x = event.touches[0].clientX - rect.left;
-        y = event.touches[0].clientY - rect.top;
-      } else {
-        x = event.clientX - rect.left;
-        y = event.clientY - rect.top;
-      }
-
-      const canvasWidth = this.canvasWidth;
-      const canvasHeight = this.canvasHeight;
-
-      // Divide the screen into four quadrants and assign directions
-      if (x < canvasWidth / 2 && y < canvasHeight / 2) {
-        // Top-left quadrant
-        if (this.snakeDirection !== 'down') this.snakeDirection = 'up';
-      } else if (x >= canvasWidth / 2 && y < canvasHeight / 2) {
-        // Top-right quadrant
-        if (this.snakeDirection !== 'left') this.snakeDirection = 'right';
-      } else if (x < canvasWidth / 2 && y >= canvasHeight / 2) {
-        // Bottom-left quadrant
-        if (this.snakeDirection !== 'right') this.snakeDirection = 'left';
-      } else if (x >= canvasWidth / 2 && y >= canvasHeight / 2) {
-        // Bottom-right quadrant
-        if (this.snakeDirection !== 'up') this.snakeDirection = 'down';
-      }
+    onSwipeLeft() {
+      if (this.snakeDirection !== 'right') this.snakeDirection = 'left';
+    },
+    onSwipeRight() {
+      if (this.snakeDirection !== 'left') this.snakeDirection = 'right';
+    },
+    onSwipeUp() {
+      if (this.snakeDirection !== 'down') this.snakeDirection = 'up';
+    },
+    onSwipeDown() {
+      if (this.snakeDirection !== 'up') this.snakeDirection = 'down';
     },
     gameLoop() {
       this.updateSnakePosition();
@@ -220,9 +206,6 @@ export default {
       this.$refs.bgMusic.pause();
       this.$refs.bgMusic.currentTime = 0;
 
-      // Remove event listeners
-      this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
-      this.$refs.gameCanvas.removeEventListener('touchstart', this.canvasClickHandler);
       this.gameState = 'gameover';
     },
     placeFood() {

@@ -3,14 +3,12 @@
     "name": "game",
     "path": "/game",
     "component": "/Users/kambarmirmanov/Desktop/snake-game/pages/game.vue",
-    "chunkName": "pages/game",
-    "_name": "_a123a56c"
+    "chunkName": "pages/game"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/kambarmirmanov/Desktop/snake-game/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_55acbaac"
+    "chunkName": "pages/index"
   }
 ]

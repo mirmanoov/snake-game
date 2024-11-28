@@ -1,4 +1,4 @@
-export { default as SnakeGame } from '../../components/SnakeGame.vue'
+export const SnakeGame = () => import('../../components/SnakeGame.vue' /* webpackChunkName: "components/snake-game" */).then(c => wrapFunctional(c.default || c))
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

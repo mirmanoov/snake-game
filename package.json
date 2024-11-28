@@ -11,6 +11,8 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^4.2.1",
     "core-js": "^3.25.3",
+    "dotenv": "^16.4.5",
+    "node-telegram-bot-api": "^0.66.0",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",

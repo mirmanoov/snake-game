@@ -1,13 +1,15 @@
 <template>
   <div class="bg-black min-h-screen w-full h-full">
     <div v-if="gameState === 'start'" class="flex items-center justify-center h-screen text-center">
-      <h1 class="text-5xl text-neon-green mb-8">Play Snake Game</h1>
-      <button
-        @click="startGame"
-        class="px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl"
-      >
-        Start Game
-      </button>
+      <div>
+        <h1 class="text-5xl text-neon-green mb-8">Play Snake Game</h1>
+        <button
+          @click="startGame"
+          class="px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl"
+        >
+          Start Game
+        </button>
+      </div>
     </div>
     <div v-else-if="gameState === 'playing'">
       <canvas
@@ -31,8 +33,8 @@
     </div>
 
     <!-- Audio Elements -->
-    <audio ref="eatSound" src="assets/eat.mp3"></audio>
-    <audio ref="bgMusic" src="assets/music.mp3" loop></audio>
+    <audio ref="eatSound" src="/eat.mp3"></audio>
+    <audio ref="bgMusic" src="/music.mp3" loop></audio>
   </div>
 </template>
 
@@ -56,28 +58,31 @@ export default {
     };
   },
   mounted() {
-    // Ensure window is defined before accessing it
-    this.canvasWidth = window.innerWidth;
-    this.canvasHeight = window.innerHeight;
-    this.calculateCanvasSize();
+    if (process.client) {
+      this.canvasWidth = window.innerWidth;
+      this.canvasHeight = window.innerHeight;
+      this.calculateCanvasSize();
 
-    window.addEventListener('resize', this.calculateCanvasSize);
+      window.addEventListener('resize', this.calculateCanvasSize);
 
-    if (window.Telegram && window.Telegram.WebApp) {
-      this.tgWebApp = window.Telegram.WebApp;
-      this.tgWebApp.ready();
+      if (window.Telegram && window.Telegram.WebApp) {
+        this.tgWebApp = window.Telegram.WebApp;
+        this.tgWebApp.ready();
 
-      // Access theme parameters
-      const themeParams = this.tgWebApp.themeParams;
-      // Use themeParams to adjust styles, e.g.,
-      this.applyTheme(themeParams);
+        // Access theme parameters
+        const themeParams = this.tgWebApp.themeParams;
+        // Use themeParams to adjust styles, e.g.,
+        this.applyTheme(themeParams);
+      }
+      document.addEventListener('keydown', this.keyDownHandler);
     }
-    document.addEventListener('keydown', this.keyDownHandler);
   },
   beforeDestroy() {
-    document.removeEventListener('keydown', this.keyDownHandler);
-    window.removeEventListener('resize', this.calculateCanvasSize);
-    clearInterval(this.gameInterval);
+    if (process.client) {
+      document.removeEventListener('keydown', this.keyDownHandler);
+      window.removeEventListener('resize', this.calculateCanvasSize);
+      clearInterval(this.gameInterval);
+    }
   },
   methods: {
     calculateCanvasSize() {
@@ -137,27 +142,22 @@ export default {
         y = event.clientY - rect.top;
       }
 
-      const head = this.snake[0];
-      const headX = head.x * this.gridSize + this.gridSize / 2;
-      const headY = head.y * this.gridSize + this.gridSize / 2;
+      const canvasWidth = this.canvasWidth;
+      const canvasHeight = this.canvasHeight;
 
-      const dx = x - headX;
-      const dy = y - headY;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // Horizontal movement
-        if (dx < 0 && this.snakeDirection !== 'right') {
-          this.snakeDirection = 'left';
-        } else if (dx > 0 && this.snakeDirection !== 'left') {
-          this.snakeDirection = 'right';
-        }
-      } else {
-        // Vertical movement
-        if (dy < 0 && this.snakeDirection !== 'down') {
-          this.snakeDirection = 'up';
-        } else if (dy > 0 && this.snakeDirection !== 'up') {
-          this.snakeDirection = 'down';
-        }
+      // Divide the screen into four quadrants and assign directions
+      if (x < canvasWidth / 2 && y < canvasHeight / 2) {
+        // Top-left quadrant
+        if (this.snakeDirection !== 'down') this.snakeDirection = 'up';
+      } else if (x >= canvasWidth / 2 && y < canvasHeight / 2) {
+        // Top-right quadrant
+        if (this.snakeDirection !== 'left') this.snakeDirection = 'right';
+      } else if (x < canvasWidth / 2 && y >= canvasHeight / 2) {
+        // Bottom-left quadrant
+        if (this.snakeDirection !== 'right') this.snakeDirection = 'left';
+      } else if (x >= canvasWidth / 2 && y >= canvasHeight / 2) {
+        // Bottom-right quadrant
+        if (this.snakeDirection !== 'up') this.snakeDirection = 'down';
       }
     },
     gameLoop() {

@@ -14,7 +14,7 @@ if(content.locals) module.exports = content.locals;
 // add CSS to SSR context
 var add = __webpack_require__(5).default
 module.exports.__inject__ = function (context) {
-  add("29386298", content, true, context)
+  add("a8dfedb8", content, true, context)
 };
 
 /***/ }),
@@ -26,17 +26,17 @@ module.exports.__inject__ = function (context) {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=template&id=0843bd98&scoped=true
+// CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=template&id=e8e1d2e4&scoped=true
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
     staticClass: "bg-black min-h-screen w-full h-full"
-  }, [_vm._ssrNode((_vm.gameState === 'start' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-0843bd98><h1 class=\"text-5xl text-neon-green mb-8\" data-v-0843bd98>Play Snake Game</h1> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-0843bd98>\n      Start Game\n    </button></div>" : _vm.gameState === 'playing' ? "<div data-v-0843bd98><canvas" + _vm._ssrAttr("width", _vm.canvasWidth) + _vm._ssrAttr("height", _vm.canvasHeight) + " class=\"bg-black\" data-v-0843bd98></canvas></div>" : _vm.gameState === 'gameover' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-0843bd98><div data-v-0843bd98><h1 class=\"text-5xl text-neon-red mb-6\" data-v-0843bd98>Game Over</h1> <p class=\"text-neon-green text-2xl mb-4\" data-v-0843bd98>" + _vm._ssrEscape("Your Score: " + _vm._s(_vm.score)) + "</p> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-0843bd98>\n        Play Again\n      </button></div></div>" : "<!---->") + " <audio src=\"assets/eat.mp3\" data-v-0843bd98></audio> <audio src=\"assets/music.mp3\" loop=\"loop\" data-v-0843bd98></audio>")]);
+  }, [_vm._ssrNode((_vm.gameState === 'start' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-e8e1d2e4><div data-v-e8e1d2e4><h1 class=\"text-5xl text-neon-green mb-8\" data-v-e8e1d2e4>Play Snake Game</h1> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-e8e1d2e4>\n        Start Game\n      </button></div></div>" : _vm.gameState === 'playing' ? "<div data-v-e8e1d2e4><canvas" + _vm._ssrAttr("width", _vm.canvasWidth) + _vm._ssrAttr("height", _vm.canvasHeight) + " class=\"bg-black\" data-v-e8e1d2e4></canvas></div>" : _vm.gameState === 'gameover' ? "<div class=\"flex items-center justify-center h-screen text-center\" data-v-e8e1d2e4><div data-v-e8e1d2e4><h1 class=\"text-5xl text-neon-red mb-6\" data-v-e8e1d2e4>Game Over</h1> <p class=\"text-neon-green text-2xl mb-4\" data-v-e8e1d2e4>" + _vm._ssrEscape("Your Score: " + _vm._s(_vm.score)) + "</p> <button class=\"px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl\" data-v-e8e1d2e4>\n        Play Again\n      </button></div></div>" : "<!---->") + " <audio src=\"/eat.mp3\" data-v-e8e1d2e4></audio> <audio src=\"/music.mp3\" loop=\"loop\" data-v-e8e1d2e4></audio>")]);
 };
 var staticRenderFns = [];
 
-// CONCATENATED MODULE: ./components/SnakeGame.vue?vue&type=template&id=0843bd98&scoped=true
+// CONCATENATED MODULE: ./components/SnakeGame.vue?vue&type=template&id=e8e1d2e4&scoped=true
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--2-0!./node_modules/@nuxt/components/dist/loader.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/SnakeGame.vue?vue&type=script&lang=js
 /* harmony default export */ var SnakeGamevue_type_script_lang_js = ({
@@ -62,26 +62,10 @@ var staticRenderFns = [];
     };
   },
   mounted() {
-    // Ensure window is defined before accessing it
-    this.canvasWidth = window.innerWidth;
-    this.canvasHeight = window.innerHeight;
-    this.calculateCanvasSize();
-    window.addEventListener('resize', this.calculateCanvasSize);
-    if (window.Telegram && window.Telegram.WebApp) {
-      this.tgWebApp = window.Telegram.WebApp;
-      this.tgWebApp.ready();
-
-      // Access theme parameters
-      const themeParams = this.tgWebApp.themeParams;
-      // Use themeParams to adjust styles, e.g.,
-      this.applyTheme(themeParams);
-    }
-    document.addEventListener('keydown', this.keyDownHandler);
+    if (false) {}
   },
   beforeDestroy() {
-    document.removeEventListener('keydown', this.keyDownHandler);
-    window.removeEventListener('resize', this.calculateCanvasSize);
-    clearInterval(this.gameInterval);
+    if (false) {}
   },
   methods: {
     calculateCanvasSize() {
@@ -147,25 +131,22 @@ var staticRenderFns = [];
         x = event.clientX - rect.left;
         y = event.clientY - rect.top;
       }
-      const head = this.snake[0];
-      const headX = head.x * this.gridSize + this.gridSize / 2;
-      const headY = head.y * this.gridSize + this.gridSize / 2;
-      const dx = x - headX;
-      const dy = y - headY;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // Horizontal movement
-        if (dx < 0 && this.snakeDirection !== 'right') {
-          this.snakeDirection = 'left';
-        } else if (dx > 0 && this.snakeDirection !== 'left') {
-          this.snakeDirection = 'right';
-        }
-      } else {
-        // Vertical movement
-        if (dy < 0 && this.snakeDirection !== 'down') {
-          this.snakeDirection = 'up';
-        } else if (dy > 0 && this.snakeDirection !== 'up') {
-          this.snakeDirection = 'down';
-        }
+      const canvasWidth = this.canvasWidth;
+      const canvasHeight = this.canvasHeight;
+
+      // Divide the screen into four quadrants and assign directions
+      if (x < canvasWidth / 2 && y < canvasHeight / 2) {
+        // Top-left quadrant
+        if (this.snakeDirection !== 'down') this.snakeDirection = 'up';
+      } else if (x >= canvasWidth / 2 && y < canvasHeight / 2) {
+        // Top-right quadrant
+        if (this.snakeDirection !== 'left') this.snakeDirection = 'right';
+      } else if (x < canvasWidth / 2 && y >= canvasHeight / 2) {
+        // Bottom-left quadrant
+        if (this.snakeDirection !== 'right') this.snakeDirection = 'left';
+      } else if (x >= canvasWidth / 2 && y >= canvasHeight / 2) {
+        // Bottom-right quadrant
+        if (this.snakeDirection !== 'up') this.snakeDirection = 'down';
       }
     },
     gameLoop() {
@@ -327,7 +308,7 @@ var component = Object(componentNormalizer["a" /* default */])(
   staticRenderFns,
   false,
   injectStyles,
-  "0843bd98",
+  "e8e1d2e4",
   "73827e87"
   
 )
@@ -341,9 +322,9 @@ var component = Object(componentNormalizer["a" /* default */])(
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_0843bd98_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_e8e1d2e4_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_e8e1d2e4_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_e8e1d2e4_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_e8e1d2e4_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SnakeGame_vue_vue_type_style_index_0_id_e8e1d2e4_prod_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 
 
 /***/ }),
@@ -355,7 +336,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(4);
 var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.i, "body[data-v-0843bd98]{background-color:#000;margin:0}canvas[data-v-0843bd98]{display:block}.text-neon-green[data-v-0843bd98]{color:#39ff14}.text-neon-red[data-v-0843bd98]{color:#ff3131}.bg-neon-blue[data-v-0843bd98]{background-color:#1b03a3}.bg-neon-blue-dark[data-v-0843bd98]{background-color:navy}button[data-v-0843bd98]{box-shadow:0 0 10px #1b03a3}button[data-v-0843bd98]:hover{box-shadow:0 0 20px navy}", ""]);
+___CSS_LOADER_EXPORT___.push([module.i, "body[data-v-e8e1d2e4]{background-color:#000;margin:0}canvas[data-v-e8e1d2e4]{display:block}.text-neon-green[data-v-e8e1d2e4]{color:#39ff14}.text-neon-red[data-v-e8e1d2e4]{color:#ff3131}.bg-neon-blue[data-v-e8e1d2e4]{background-color:#1b03a3}.bg-neon-blue-dark[data-v-e8e1d2e4]{background-color:navy}button[data-v-e8e1d2e4]{box-shadow:0 0 10px #1b03a3}button[data-v-e8e1d2e4]:hover{box-shadow:0 0 20px navy}", ""]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {};
 module.exports = ___CSS_LOADER_EXPORT___;

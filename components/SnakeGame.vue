@@ -79,12 +79,19 @@ export default {
         this.applyTheme(themeParams);
       }
       document.addEventListener('keydown', this.keyDownHandler);
+
+      // Listen for fullscreen change events
+      document.addEventListener('fullscreenchange', this.onFullScreenChange);
     }
   },
   beforeDestroy() {
     if (process.client) {
       document.removeEventListener('keydown', this.keyDownHandler);
       window.removeEventListener('resize', this.calculateCanvasSize);
+
+      // Remove fullscreen change listener
+      document.removeEventListener('fullscreenchange', this.onFullScreenChange);
+
       clearInterval(this.gameInterval);
     }
   },
@@ -96,6 +103,8 @@ export default {
       this.tileCountY = Math.floor(this.canvasHeight / this.gridSize);
     },
     startGame() {
+      this.enterFullScreen(); // Request full-screen mode
+
       this.gameState = 'playing';
       this.calculateCanvasSize();
       this.$nextTick(() => {
@@ -106,13 +115,41 @@ export default {
         // Play background music
         this.playAudio(this.$refs.bgMusic);
 
-        // Add touch event listeners for swipe detection
-        this.$refs.gameCanvas.addEventListener('touchstart', this.handleTouchStart, false);
-        this.$refs.gameCanvas.addEventListener('touchend', this.handleTouchEnd, false);
+        // Add touch event listeners for swipe detection with passive: false
+        this.$refs.gameCanvas.addEventListener('touchstart', this.handleTouchStart, { passive: false });
+        this.$refs.gameCanvas.addEventListener('touchend', this.handleTouchEnd, { passive: false });
 
         // Remove any existing click handlers
         this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
       });
+    },
+    enterFullScreen() {
+      const elem = document.documentElement;
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    },
+    onFullScreenChange() {
+      if (!document.fullscreenElement) {
+        // The user exited full-screen mode
+        // Optionally, pause the game or handle accordingly
+        // For example, you can pause the game loop
+        clearInterval(this.gameInterval);
+        alert('You have exited full-screen mode. The game is paused.');
+      } else {
+        // Re-entered full-screen mode
+        // Optionally, resume the game
+        if (this.gameState === 'playing' && !this.gameInterval) {
+          this.gameInterval = setInterval(this.gameLoop, 100);
+        }
+      }
     },
     resetGame() {
       this.snake = [{ x: Math.floor(this.tileCountX / 2), y: Math.floor(this.tileCountY / 2) }];
@@ -138,11 +175,13 @@ export default {
       }
     },
     handleTouchStart(event) {
+      event.preventDefault(); // Prevent default scrolling behavior
       const touch = event.changedTouches[0];
       this.touchStartX = touch.screenX;
       this.touchStartY = touch.screenY;
     },
     handleTouchEnd(event) {
+      event.preventDefault(); // Prevent default scrolling behavior
       const touch = event.changedTouches[0];
       this.touchEndX = touch.screenX;
       this.touchEndY = touch.screenY;
@@ -234,8 +273,8 @@ export default {
       this.$refs.bgMusic.currentTime = 0;
 
       // Remove touch event listeners
-      this.$refs.gameCanvas.removeEventListener('touchstart', this.handleTouchStart);
-      this.$refs.gameCanvas.removeEventListener('touchend', this.handleTouchEnd);
+      this.$refs.gameCanvas.removeEventListener('touchstart', this.handleTouchStart, { passive: false });
+      this.$refs.gameCanvas.removeEventListener('touchend', this.handleTouchEnd, { passive: false });
 
       this.gameState = 'gameover';
     },
@@ -322,12 +361,30 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+/* Global styles */
+html,
 body {
+  overscroll-behavior: none; /* Prevent navigation gestures */
+  touch-action: none; /* Disable touch actions */
   margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
   background-color: #000000; /* Black background */
 }
 
+/* Scoped styles */
+</style>
+
+<style scoped>
 canvas {
   display: block;
 }

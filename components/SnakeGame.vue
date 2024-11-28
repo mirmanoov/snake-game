@@ -1,29 +1,29 @@
 <template>
-  <div class="flex items-center justify-center bg-gray-900 min-h-screen">
+  <div class="flex items-center justify-center bg-black min-h-screen">
     <div v-if="gameState === 'start'" class="text-center">
-      <h1 class="text-5xl text-green-400 mb-8">Snake Game</h1>
+      <h1 class="text-5xl text-neon-green mb-8">Play Snake Game</h1>
       <button
         @click="startGame"
-        class="px-8 py-4 bg-green-500 text-white rounded-lg hover:bg-green-600 text-xl"
+        class="px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl"
       >
         Start Game
       </button>
     </div>
     <div v-else-if="gameState === 'playing'" class="flex flex-col items-center">
-      <div class="text-white text-2xl mb-2">Score: {{ score }}</div>
+      <div class="text-neon-green text-2xl mb-2">Score: {{ score }}</div>
       <canvas
         ref="gameCanvas"
         :width="canvasSize"
         :height="canvasSize"
-        class="border-4 border-gray-700 bg-gray-800"
+        class="border-4 border-neon-blue bg-black"
       ></canvas>
     </div>
     <div v-else-if="gameState === 'gameover'" class="text-center">
-      <h1 class="text-5xl text-red-500 mb-6">Game Over</h1>
-      <p class="text-white text-2xl mb-4">Your Score: {{ score }}</p>
+      <h1 class="text-5xl text-neon-red mb-6">Game Over</h1>
+      <p class="text-neon-green text-2xl mb-4">Your Score: {{ score }}</p>
       <button
         @click="startGame"
-        class="px-8 py-4 bg-green-500 text-white rounded-lg hover:bg-green-600 text-xl"
+        class="px-8 py-4 bg-neon-blue text-white rounded-lg hover:bg-neon-blue-dark text-xl"
       >
         Play Again
       </button>
@@ -87,7 +87,8 @@ export default {
         this.gameInterval = setInterval(this.gameLoop, 100);
 
         // Play background music
-        this.$refs.bgMusic.play();
+        // Uncomment if you have background music
+        // this.$refs.bgMusic.play();
 
         // Add event listeners
         this.$refs.gameCanvas.addEventListener('click', this.canvasClickHandler);
@@ -185,8 +186,9 @@ export default {
         this.placeFood();
 
         // Play eat sound
-        this.$refs.eatSound.currentTime = 0;
-        this.$refs.eatSound.play();
+        // Uncomment if you have an eat sound
+        // this.$refs.eatSound.currentTime = 0;
+        // this.$refs.eatSound.play();
       } else {
         this.snake.pop();
       }
@@ -206,8 +208,9 @@ export default {
       clearInterval(this.gameInterval);
 
       // Stop background music
-      this.$refs.bgMusic.pause();
-      this.$refs.bgMusic.currentTime = 0;
+      // Uncomment if you have background music
+      // this.$refs.bgMusic.pause();
+      // this.$refs.bgMusic.currentTime = 0;
 
       // Remove event listeners
       this.$refs.gameCanvas.removeEventListener('click', this.canvasClickHandler);
@@ -223,12 +226,18 @@ export default {
       this.food = { x: newX, y: newY };
     },
     drawGame() {
-      // Clear canvas
-      this.context.fillStyle = '#1a202c'; // bg-gray-800
+      // Clear canvas with a black background
+      this.context.fillStyle = '#000000';
       this.context.fillRect(0, 0, this.canvasSize, this.canvasSize);
 
-      // Draw snake
-      this.context.fillStyle = '#68d391'; // green-400
+      // Draw grid lines for a futuristic feel
+      this.drawGrid();
+
+      // Draw snake with neon glow
+      this.context.shadowBlur = 10;
+      this.context.shadowColor = '#39FF14'; // Neon green
+
+      this.context.fillStyle = '#39FF14'; // Neon green
       this.snake.forEach((part) => {
         this.context.fillRect(
           part.x * this.gridSize,
@@ -238,14 +247,36 @@ export default {
         );
       });
 
-      // Draw food
-      this.context.fillStyle = '#f56565'; // red-400
+      // Draw food with neon glow
+      this.context.shadowColor = '#FF3131'; // Neon red
+      this.context.fillStyle = '#FF3131'; // Neon red
       this.context.fillRect(
         this.food.x * this.gridSize,
         this.food.y * this.gridSize,
         this.gridSize,
         this.gridSize
       );
+
+      // Reset shadow blur
+      this.context.shadowBlur = 0;
+    },
+    drawGrid() {
+      this.context.strokeStyle = '#0F0F0F';
+      this.context.lineWidth = 1;
+
+      for (let i = 0; i <= this.tileCount; i++) {
+        // Vertical lines
+        this.context.beginPath();
+        this.context.moveTo(i * this.gridSize, 0);
+        this.context.lineTo(i * this.gridSize, this.canvasSize);
+        this.context.stroke();
+
+        // Horizontal lines
+        this.context.beginPath();
+        this.context.moveTo(0, i * this.gridSize);
+        this.context.lineTo(this.canvasSize, i * this.gridSize);
+        this.context.stroke();
+      }
     },
     applyTheme(themeParams) {
       // You can adjust the game's colors based on Telegram's theme parameters
@@ -258,8 +289,38 @@ export default {
 <style scoped>
 body {
   margin: 0;
+  background-color: #000000; /* Black background */
 }
+
 canvas {
   display: block;
+}
+
+.text-neon-green {
+  color: #39FF14; /* Neon green */
+}
+
+.text-neon-red {
+  color: #FF3131; /* Neon red */
+}
+
+.bg-neon-blue {
+  background-color: #1B03A3; /* Neon blue */
+}
+
+.bg-neon-blue-dark {
+  background-color: #000080; /* Darker neon blue */
+}
+
+.border-neon-blue {
+  border-color: #1B03A3; /* Neon blue border */
+}
+
+button {
+  box-shadow: 0 0 10px #1B03A3;
+}
+
+button:hover {
+  box-shadow: 0 0 20px #000080;
 }
 </style>
